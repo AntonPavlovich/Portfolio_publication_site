@@ -4,3 +4,7 @@
 
 /server/node_modules
 /server/package-*.json
+/server/dist
+/server/test
+
+*.env
