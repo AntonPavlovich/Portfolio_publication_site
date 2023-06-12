@@ -8,7 +8,7 @@ const dataSource = new DataSource({
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
   entities: ['./dist/database/entities/*.js'],
-  migrations: ['./src/database/migrations/*.ts'],
+  migrations: ['./dist/database/migrations/*{ts,js}'],
 });
 
 export default dataSource;
