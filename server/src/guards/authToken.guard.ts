@@ -16,12 +16,12 @@ export class AuthTokenGuard implements CanActivate {
       return true;
     }
 
-    const token = request.headers['authentication'];
+    const token = this.extractTokenFromHeader(request)
     if( !token ){
       throw new UnauthorizedException();
     }
     try {
-      request.user = await this.authService.verifyAccess(token.replace('Bearer ', ''));
+      request.user = await this.authService.verifyAccess(token);
 
       return request.user.email && request.user.id;
     } catch (ex) {
@@ -29,7 +29,12 @@ export class AuthTokenGuard implements CanActivate {
     }
   }
 
-  private isUnprotectedRoute(url) {
+  private extractTokenFromHeader(req: Request): string | undefined {
+    const [ type, token ] = req.headers['authorization']?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
+  }
+
+  private isUnprotectedRoute(url): boolean {
     const unprotected = ['/auth/login', '/auth/sign-up', '/feed', '/auth/refresh']
     return unprotected.includes(url);
   }
