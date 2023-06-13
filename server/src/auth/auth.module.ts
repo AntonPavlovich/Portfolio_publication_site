@@ -5,15 +5,20 @@ import { UserModule } from '../user/user.module';
 import { HashService } from '../services/hash.service';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
+import { TokenModule } from '../token/token.module';
 
 @Module({
   imports: [
     UserModule,
-    PassportModule ],
+    PassportModule,
+    TokenModule
+  ],
   providers: [
     AuthService,
     HashService,
-    LocalStrategy ],
-  controllers: [ AuthController ]
+    LocalStrategy
+  ],
+  controllers: [ AuthController ],
+  exports: [ AuthService ]
 })
 export class AuthModule {}

@@ -4,12 +4,14 @@ import { LoginDto } from './dto/loginDto';
 import { SignUpDto } from './dto/signUpDto';
 import { HashService } from '../services/hash.service';
 import { User } from '../database/entities/User';
+import { TokenService } from '../token/token.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UserService,
-    private hashService: HashService
+    private hashService: HashService,
+    private tokenService: TokenService
   ) {}
 
   async validateUser({ email, password }: LoginDto): Promise<User | null>{
@@ -23,8 +25,20 @@ export class AuthService {
     return null;
   }
 
-  login(loginDto: LoginDto){
-    return true
+  async refreshTokens( refreshToken ) {
+    const {  id, email } = await this.tokenService.verifyRefreshToken(refreshToken);
+    return this.tokenService.signTokenPair({ id, email })
+  }
+
+  async verifyAccess( token: string ) {
+    return this.tokenService.verifyAccessToken(token)
+  }
+
+  login(user: User){
+    return this.tokenService.signTokenPair({
+      id: user.id,
+      email: user.email
+    })
   }
 
   async signUp(signUpDto: SignUpDto){
@@ -36,7 +50,8 @@ export class AuthService {
     return this.usersService.create(signUpDto)
   }
 
-  signOut(){}
-
+  async signOut(){
+    await this.tokenService.deleteTokenPair();
+  }
 
 }

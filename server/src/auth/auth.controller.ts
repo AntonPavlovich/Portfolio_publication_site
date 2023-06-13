@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/loginDto';
 import { SignUpDto } from './dto/signUpDto';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -10,10 +9,22 @@ export class AuthController {
     private authService: AuthService
   ) {}
 
+  @Get('test')
+  test(){
+    return 'AUTHENTICATED'
+  }
+
   @UseGuards(AuthGuard('local'))
   @Post('login')
-  login(@Body() loginDto: LoginDto ){
-    return this.authService.login(loginDto)
+  login(@Req() req ){
+    const { user } = req;
+    return this.authService.login(user)
+  }
+
+  @Post('refresh')
+  refresh(@Body() body){
+    const { refreshToken } = body;
+    return this.authService.refreshTokens(refreshToken);
   }
 
   @Post('sign-up')
@@ -22,6 +33,8 @@ export class AuthController {
   }
 
   @Get('sign-out')
-  signOut(){}
+  signOut(){
+    return this.authService.signOut();
+  }
 
 }
