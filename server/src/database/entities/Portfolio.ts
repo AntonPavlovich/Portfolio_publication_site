@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
+import { User } from './User';
 
 @Entity('portfolios')
 export class Portfolio {
@@ -27,4 +28,12 @@ export class Portfolio {
   })
   updated_at: Date;
 
+  @ManyToOne(() => User, {
+    cascade: [ 'update' ],
+    nullable: false
+  })
+  @JoinColumn({
+    name: 'userId'
+  })
+  user: User
 }
