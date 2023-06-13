@@ -13,7 +13,7 @@ export class UserService {
     private hashService: HashService
   ) {}
 
-  async findOneByEmail( email: string ): Promise<User>{
+  async findOneByEmail( email: string ): Promise<User | null>{
     return this.usersRepository.findOne({ where: { email } })
   }
 
