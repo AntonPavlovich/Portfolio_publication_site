@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   signUp(signUpDto: SignUpDto){
-    return signUpDto;
+    return this.usersService.create(signUpDto)
   }
 
   signOut(){}
