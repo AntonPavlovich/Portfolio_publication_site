@@ -11,12 +11,14 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthTokenGuard } from './guards/authToken.guard';
 
 import dataSource from './database/dataSource';
+import { PortfolioModule } from './portfolio/portfolio.module';
 
 @Module({
   imports: [
     AuthModule,
     TokenModule,
     UserModule,
+    PortfolioModule,
     CacheModule.register({
       isGlobal: true
     }),
