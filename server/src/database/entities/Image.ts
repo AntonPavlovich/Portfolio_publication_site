@@ -14,18 +14,25 @@ export class Image {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column()
+  @Column({
+    length: 200
+  })
   name: string
 
   @Column({
-    nullable: true
+    nullable: true,
+    length: 500
   })
   description: string
 
-  @Column()
+  @Column({
+    type: 'text'
+  })
   originalFileName: string
 
-  @Column()
+  @Column({
+    type: 'text'
+  })
   url: string
 
   @CreateDateColumn({
