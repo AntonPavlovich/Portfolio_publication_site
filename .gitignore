@@ -7,4 +7,7 @@
 /server/dist
 /server/test
 
+.gitignore
+.git
+
 *.env
