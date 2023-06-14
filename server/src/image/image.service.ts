@@ -16,7 +16,7 @@ export class ImageService {
   async getFeed(limit = 100, offset = 0, hostname: string){
     const images = await this.imageRepository.query(`
         select
-            $3 || url as "url",
+            $3 || img.name as "url",
             img.description,
             port.name
         from images img

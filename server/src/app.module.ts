@@ -1,18 +1,21 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ServeStaticModule } from '@nestjs/serve-static';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { TokenModule } from './token/token.module';
+import { PortfolioModule } from './portfolio/portfolio.module';
+import { ImageModule } from './image/image.module';
 
 import { APP_GUARD } from '@nestjs/core';
 import { AuthTokenGuard } from './guards/authToken.guard';
 
 import dataSource from './database/dataSource';
-import { PortfolioModule } from './portfolio/portfolio.module';
-import { ImageModule } from './image/image.module';
+import * as path from 'path';
 
 @Module({
   imports: [
@@ -21,6 +24,12 @@ import { ImageModule } from './image/image.module';
     UserModule,
     PortfolioModule,
     ImageModule,
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '..', 'uploads'),
+      serveStaticOptions: {
+        index: false
+      }
+    }),
     CacheModule.register({
       isGlobal: true
     }),
