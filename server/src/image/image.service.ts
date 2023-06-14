@@ -13,6 +13,20 @@ export class ImageService {
     private readonly imageRepository: Repository<Image>
   ) {}
 
+  async getFeed(limit = 100, offset = 0, hostname: string){
+    const images = await this.imageRepository.query(`
+        select
+            $3 || url as "url",
+            img.description,
+            port.name
+        from images img
+            join portfolios port on port.id = img."portfolioId"
+        order by img."createdAt"
+        limit $1 offset $2;
+    `, [ limit, offset, hostname ] )
+    return images;
+  }
+
   async createImageRecord(
     image: Express.Multer.File & Partial<{ description: string }>,
     portfolio: Portfolio
