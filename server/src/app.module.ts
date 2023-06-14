@@ -24,11 +24,8 @@ import { ImageModule } from './image/image.module';
     CacheModule.register({
       isGlobal: true
     }),
-    TypeOrmModule.forRootAsync({
-      useFactory: () => dataSource.options,
-      dataSourceFactory: async (options) => {
-        return await dataSource.initialize()
-      }
+    TypeOrmModule.forRoot({
+      ...dataSource.options
     })
   ],
   controllers: [AppController],
