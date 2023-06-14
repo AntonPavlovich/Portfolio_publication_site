@@ -4,7 +4,7 @@ import { Portfolio } from '../database/entities/Portfolio';
 import { Repository } from 'typeorm';
 import { CreatePortfolioDto } from './dto/CreatePortfolioDto';
 import { UpdatePortfolioDto } from './dto/UpdatePortfolioDto';
-import { Image } from '../database/entities/Image';
+import { ImageService } from '../image/image.service';
 
 
 @Injectable()
@@ -12,8 +12,7 @@ export class PortfolioService {
   constructor(
     @InjectRepository(Portfolio)
     private readonly portfolioRepository: Repository<Portfolio>,
-    @InjectRepository(Image)
-    private readonly imageRepository: Repository<Image>
+    private readonly imageService: ImageService
   ) {}
 
   async saveImageRecord(
@@ -28,22 +27,7 @@ export class PortfolioService {
       throw new BadRequestException('There are no such portfolio!')
     }
 
-    const {
-      originalname : originalFileName,
-      filename: name,
-      path: url,
-      description
-    } = image;
-
-    const imageEntity = this.imageRepository.create({
-      name,
-      description,
-      url,
-      originalFileName,
-      portfolio
-    })
-    console.log(imageEntity)
-    await this.imageRepository.save(imageEntity)
+    await this.imageService.createImageRecord(image, portfolio);
 
   }
 

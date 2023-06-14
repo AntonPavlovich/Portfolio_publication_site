@@ -1,5 +1,4 @@
-import { Controller, Delete, Param, ParseIntPipe, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { ImageService } from './image.service';
 
 @Controller('images')
@@ -7,6 +6,14 @@ export class ImageController {
   constructor(
     private readonly imageService: ImageService
   ) {}
+
+  @Post(':id/new-comment')
+  async addCommentToImage(
+    @Param("id") imageId,
+    @Body() body
+  ){
+    
+  }
 
   @Delete(':id')
   async deleteImage(
