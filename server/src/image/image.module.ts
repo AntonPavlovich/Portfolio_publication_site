@@ -1,14 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { ImageController } from './image.controller';
-import { MulterModule } from '@nestjs/platform-express';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Image } from '../database/entities/Image';
 
 @Module({
-  imports: [
-    MulterModule.register({
-      dest: './uploads'
-    }),
-  ],
+  imports: [ TypeOrmModule.forFeature([ Image ]) ],
   providers: [ ImageService ],
   controllers: [ ImageController ]
 })
