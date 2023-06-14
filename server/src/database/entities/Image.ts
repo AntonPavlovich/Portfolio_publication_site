@@ -21,6 +21,9 @@ export class Image {
   description: string
 
   @Column()
+  originalFileName: string
+
+  @Column()
   url: string
 
   @CreateDateColumn({
