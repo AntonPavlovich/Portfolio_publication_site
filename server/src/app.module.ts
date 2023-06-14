@@ -12,6 +12,7 @@ import { AuthTokenGuard } from './guards/authToken.guard';
 
 import dataSource from './database/dataSource';
 import { PortfolioModule } from './portfolio/portfolio.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PortfolioModule } from './portfolio/portfolio.module';
     TokenModule,
     UserModule,
     PortfolioModule,
+    ImageModule,
     CacheModule.register({
       isGlobal: true
     }),
