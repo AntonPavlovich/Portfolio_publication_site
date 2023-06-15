@@ -28,8 +28,9 @@ import * as path from 'path';
     CommentModule,
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'uploads'),
+      exclude: [ '/(.*)/(.*)' ],
       serveStaticOptions: {
-        index: false
+        index: false,
       }
     }),
     CacheModule.register({
