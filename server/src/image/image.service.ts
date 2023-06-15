@@ -5,12 +5,14 @@ import { Repository } from 'typeorm';
 import { Portfolio } from '../database/entities/Portfolio';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { CommentService } from '../comment/comment.service';
 
 @Injectable()
 export class ImageService {
   constructor(
     @InjectRepository(Image)
-    private readonly imageRepository: Repository<Image>
+    private readonly imageRepository: Repository<Image>,
+    private readonly commentService: CommentService
   ) {}
 
   async getFeed(limit = 100, offset = 0, hostname: string){
@@ -25,6 +27,12 @@ export class ImageService {
         limit $1 offset $2;
     `, [ limit, offset, hostname ] )
     return images;
+  }
+
+  async addCommentToImage({ userId, imageId, body }){
+    await this.commentService.createComment({
+      userId, imageId, body
+    })
   }
 
   async createImageRecord(

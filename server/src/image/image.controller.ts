@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
 import { ImageService } from './image.service';
+import { CreateCommentDto } from '../comment/dto/CreateCommentDto';
 
 @Controller('images')
 export class ImageController {
@@ -18,10 +19,22 @@ export class ImageController {
 
   @Post(':id/new-comment')
   async addCommentToImage(
-    @Param("id") imageId,
-    @Body() body
+    @Param('id') imageId,
+    @Req() req
   ){
-
+    const { body: { body }, user } = req;
+    try {
+      await this.imageService.addCommentToImage({
+        userId: user.id,
+        imageId: imageId,
+        body
+      })
+      return {
+        status: 'Success'
+      }
+    } catch (ex) {
+      throw new Error(ex)
+    }
   }
 
   @Delete(':id')

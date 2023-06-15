@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { TokenModule } from './token/token.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { ImageModule } from './image/image.module';
+import { CommentModule } from './comment/comment.module';
 
 import { APP_GUARD } from '@nestjs/core';
 import { AuthTokenGuard } from './guards/authToken.guard';
@@ -24,6 +25,7 @@ import * as path from 'path';
     UserModule,
     PortfolioModule,
     ImageModule,
+    CommentModule,
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'uploads'),
       serveStaticOptions: {
