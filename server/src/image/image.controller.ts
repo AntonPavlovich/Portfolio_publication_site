@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Req } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { CreateCommentDto } from '../comment/dto/CreateCommentDto';
 
@@ -20,9 +20,10 @@ export class ImageController {
   @Post(':id/new-comment')
   async addCommentToImage(
     @Param('id') imageId,
+    @Body() body: CreateCommentDto,
     @Req() req
   ){
-    const { body: { body }, user } = req;
+    const { user } = req;
     try {
       await this.imageService.addCommentToImage({
         userId: user.id,
@@ -44,7 +45,7 @@ export class ImageController {
     try {
       await this.imageService.deleteImageRecord(imageId)
     } catch (ex) {
-      throw new Error(ex)
+      throw new NotFoundException('There no such image!');
     }
   }
 }

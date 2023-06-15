@@ -34,7 +34,7 @@ export class AuthService {
     return this.tokenService.verifyAccessToken(token)
   }
 
-  login(user: User){
+  async login(user: User){
     return this.tokenService.signTokenPair({
       id: user.id,
       email: user.email

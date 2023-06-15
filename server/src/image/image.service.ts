@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Image } from '../database/entities/Image';
 import { Repository } from 'typeorm';
@@ -64,11 +64,14 @@ export class ImageService {
       }
     })
 
-    if( imageEntity ){
-      const { url } = imageEntity;
-      await this.imageRepository.remove(imageEntity);
-      await fs.unlink(path.join(__dirname, '..', '..', url))
+    if( !imageEntity ){
+      throw new Error()
     }
+
+    const { url } = imageEntity;
+    await this.imageRepository.remove(imageEntity);
+    await fs.unlink(path.join(__dirname, '..', '..', url));
+
   }
 
 }

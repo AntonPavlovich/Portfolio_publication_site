@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Portfolio } from '../database/entities/Portfolio';
 import { Repository } from 'typeorm';
@@ -51,6 +51,14 @@ export class PortfolioService {
   }
 
   async delete(id: number){
+    const porftolioEntity = await this.portfolioRepository.findOne({
+      where: {
+        id
+      }
+    })
+    if( !porftolioEntity ){
+      throw new NotFoundException('No such portfolio')
+    }
     return this.portfolioRepository.delete({ id })
   }
 

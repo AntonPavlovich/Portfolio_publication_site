@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Comment } from '../database/entities/Comment'
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,6 +23,9 @@ export class CommentService {
     const commentRecord = await this.commentRepository.findOne({
       where: { id: commentId }
     })
+    if(!commentRecord){
+      throw new NotFoundException('No such comment')
+    }
     await this.commentRepository.remove(commentRecord)
   }
 
