@@ -14,7 +14,7 @@ npm run build && npm run typeorm migration:run -- -d ./src/database/dataSource.t
 ```
 
 ### Env variables
-Must be stored in .env sile inside project's root folder. 
+Must be stored in .env file inside project's root folder. 
 ```dotenv
 APP_PORT= #application port
 APP_HOST= #if you need to explicitly set host for static files
